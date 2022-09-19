@@ -1,0 +1,1 @@
+﻿nodemon "C:\Users\Kai Nalu\Documents\GitHub\RITFabLab-DymoConnect\printLabelExpress.js"

@@ -7,8 +7,8 @@ const port = 3000;
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
   res.setHeader('Content-Type', 'text/plain');
-  res.write('Test\n');
-  res.end('\nHello World');
+  res.write('Landing page for FabLab-DymoConnect nodejs app\n');
+  res.end('\nEnd');
 });
 
 server.listen(port, hostname, () => {
@@ -31,6 +31,7 @@ dymoPrinters.then(function(result) {
 });
 
 //create label xml
+const ticketKey = 'PR3D-test'
 const labelXml =
 `<?xml version="1.0" encoding="utf-8"?>
 <DesktopLabel Version="1">
@@ -102,7 +103,7 @@ const labelXml =
             <IsVertical>False</IsVertical>
             <LineTextSpan>
               <TextSpan>
-                <Text>Fab Lab Test</Text>
+                <Text>${ticketKey}</Text>
                 <FontInfo>
                   <FontName>Segoe UI</FontName>
                   <FontSize>27.2</FontSize>
