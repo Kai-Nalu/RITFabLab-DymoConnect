@@ -22,13 +22,14 @@ exports.printTicket = function (ticketKey) {
 		//get first printer in list then proceed
 		parser.parseString(dymoPrintersXml, function(error, result) {
 		    if(error === null) {
-		        console.log(result);
+				let jsonPrinters = result;
+		        console.log(JSON.stringify(jsonPrinters));
 				
-				let currentPrinter = result.printers[0].name;
+				let currentPrinter = jsonPrinters.Printers.LabelWriterPrinter[0].Name[0];
 				console.log(currentPrinter);
 				
 				//print label
-				//dymo.print('DYMO LabelWriter 450 (Copy 1)', labelXml);
+				dymo.print(currentPrinter, labelXml);
 		    }
 		    else {
 		        console.log(error);
