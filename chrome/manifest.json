@@ -4,6 +4,11 @@
   "version": "1.0",
   "manifest_version": 3,
   "action": {
-    "default_icon": "FLDCIcon.png"
+    "default_title": "Print Ticket",
+    "default_icon": "labelIcon.png"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "background": {
+    "service_worker": "background.js"
   }
 }
