@@ -1,4 +1,4 @@
-exports.printTicket = function (ticketKey) {
+exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
 	//dymojs setup
 	const Dymo = require('dymojs'),
 		   dymo = new Dymo();
@@ -112,7 +112,7 @@ exports.printTicket = function (ticketKey) {
 					<Text>${ticketKey}</Text>
 					<FontInfo>
 					  <FontName>Segoe UI</FontName>
-					  <FontSize>27.2</FontSize>
+					  <FontSize>22.9</FontSize>
 					  <IsBold>False</IsBold>
 					  <IsItalic>False</IsItalic>
 					  <IsUnderline>False</IsUnderline>
@@ -127,12 +127,150 @@ exports.printTicket = function (ticketKey) {
 			  </FormattedText>
 			  <ObjectLayout>
 				<DYMOPoint>
-				  <X>0.4622864</X>
-				  <Y>0.2858332</Y>
+				  <X>0.8472365</X>
+				  <Y>0.06</Y>
 				</DYMOPoint>
 				<Size>
-				  <Width>2.542507</Width>
-				  <Height>0.5116668</Height>
+				  <Width>1.805527</Width>
+				  <Height>0.4983333</Height>
+				</Size>
+			  </ObjectLayout>
+			</TextObject>
+			<TextObject>
+			  <Name>ITextObject1</Name>
+			  <Brushes>
+				<BackgroundBrush>
+				  <SolidColorBrush>
+					<Color A="0" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</BackgroundBrush>
+				<BorderBrush>
+				  <SolidColorBrush>
+					<Color A="1" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</BorderBrush>
+				<StrokeBrush>
+				  <SolidColorBrush>
+					<Color A="1" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</StrokeBrush>
+				<FillBrush>
+				  <SolidColorBrush>
+					<Color A="0" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</FillBrush>
+			  </Brushes>
+			  <Rotation>Rotation0</Rotation>
+			  <OutlineThickness>1</OutlineThickness>
+			  <IsOutlined>False</IsOutlined>
+			  <BorderStyle>SolidLine</BorderStyle>
+			  <Margin>
+				<DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+			  </Margin>
+			  <HorizontalAlignment>Left</HorizontalAlignment>
+			  <VerticalAlignment>Middle</VerticalAlignment>
+			  <FitMode>None</FitMode>
+			  <IsVertical>False</IsVertical>
+			  <FormattedText>
+				<FitMode>None</FitMode>
+				<HorizontalAlignment>Left</HorizontalAlignment>
+				<VerticalAlignment>Middle</VerticalAlignment>
+				<IsVertical>False</IsVertical>
+				<LineTextSpan>
+				  <TextSpan>
+					<Text>Customer:</Text>
+					<FontInfo>
+					  <FontName>Segoe UI</FontName>
+					  <FontSize>16.3</FontSize>
+					  <IsBold>True</IsBold>
+					  <IsItalic>False</IsItalic>
+					  <IsUnderline>False</IsUnderline>
+					  <FontBrush>
+						<SolidColorBrush>
+						  <Color A="1" R="0" G="0" B="0"></Color>
+						</SolidColorBrush>
+					  </FontBrush>
+					</FontInfo>
+				  </TextSpan>
+				</LineTextSpan>
+			  </FormattedText>
+			  <ObjectLayout>
+				<DYMOPoint>
+				  <X>0.23</X>
+				  <Y>0.5583333</Y>
+				</DYMOPoint>
+				<Size>
+				  <Width>1.126777</Width>
+				  <Height>0.4983333</Height>
+				</Size>
+			  </ObjectLayout>
+			</TextObject>
+			<TextObject>
+			  <Name>ITextObject2</Name>
+			  <Brushes>
+				<BackgroundBrush>
+				  <SolidColorBrush>
+					<Color A="0" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</BackgroundBrush>
+				<BorderBrush>
+				  <SolidColorBrush>
+					<Color A="1" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</BorderBrush>
+				<StrokeBrush>
+				  <SolidColorBrush>
+					<Color A="1" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</StrokeBrush>
+				<FillBrush>
+				  <SolidColorBrush>
+					<Color A="0" R="0" G="0" B="0"></Color>
+				  </SolidColorBrush>
+				</FillBrush>
+			  </Brushes>
+			  <Rotation>Rotation0</Rotation>
+			  <OutlineThickness>1</OutlineThickness>
+			  <IsOutlined>False</IsOutlined>
+			  <BorderStyle>SolidLine</BorderStyle>
+			  <Margin>
+				<DYMOThickness Left="0" Top="0" Right="0" Bottom="0" />
+			  </Margin>
+			  <HorizontalAlignment>Left</HorizontalAlignment>
+			  <VerticalAlignment>Middle</VerticalAlignment>
+			  <FitMode>None</FitMode>
+			  <IsVertical>False</IsVertical>
+			  <FormattedText>
+				<FitMode>None</FitMode>
+				<HorizontalAlignment>Left</HorizontalAlignment>
+				<VerticalAlignment>Middle</VerticalAlignment>
+				<IsVertical>False</IsVertical>
+				<LineTextSpan>
+				  <TextSpan>
+					<Text>${ticketReporter}</Text>
+					<FontInfo>
+					  <FontName>Segoe UI</FontName>
+					  <FontSize>16</FontSize>
+					  <IsBold>False</IsBold>
+					  <IsItalic>False</IsItalic>
+					  <IsUnderline>False</IsUnderline>
+					  <FontBrush>
+						<SolidColorBrush>
+						  <Color A="1" R="0" G="0" B="0"></Color>
+						</SolidColorBrush>
+					  </FontBrush>
+					</FontInfo>
+				  </TextSpan>
+				</LineTextSpan>
+			  </FormattedText>
+			  <ObjectLayout>
+				<DYMOPoint>
+				  <X>1.381516</X>
+				  <Y>0.5583333</Y>
+				</DYMOPoint>
+				<Size>
+				  <Width>1.970882</Width>
+				  <Height>0.4983333</Height>
 				</Size>
 			  </ObjectLayout>
 			</TextObject>

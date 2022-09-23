@@ -1,10 +1,10 @@
-// background.js
+//background.js
 function errorAlert() {
-    alert('Must be in Jira!');
+    alert('Must be in a Jira issue!');
 }
 
 chrome.action.onClicked.addListener((tab) => {
-    if (tab.url.includes("jira.cad.rit.edu")) {
+    if (tab.url.includes("jira.cad.rit.edu") && tab.url.includes("PR3D-")) {
         chrome.scripting.executeScript({
             target: {tabId: tab.id},
             files: ['printRequest.js']
