@@ -34,8 +34,8 @@ function jiraApi() {
 function jiraParser(ticketJson) {
     let name = ticketJson['fields']['summary'];
     let reporter = normalizeReporter(ticketJson['fields']['creator']['displayName']);
-    let birthday =
-    let copies =
+    let birthday = ticketJson['fields']['created']; //NEEDS TO BE FORMATTED
+    let copies = ticketJson['fields']['customfield_12004']; //NEEDS TO BE FORMATTED
     
     return {name, reporter, birthday, copies};
 }
