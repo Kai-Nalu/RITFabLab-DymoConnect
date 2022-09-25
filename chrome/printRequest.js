@@ -2,13 +2,15 @@
 //Wait for Jira api then request print
 jiraApi();
 function xhrJiraListener () {
-    jiraParser(this.responseText);
-    printRequest(key, name, reporter, birthday, copies);
+    const ticketData = jiraParser(JSON.parse(this.responseText));
+    printRequest(scrapeTicketKey(), ticketData.name, ticketData.reporter, ticketData.birthday, ticketData.copies);
 }
 
 function printRequest(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
     //make request url
-    const requestUrl = `http://localhost:3000/printTicket/${ticketKey()}.${ticketName()}.${ticketReporter()}.${ticketBirthday()}.${ticketCopies()}`;
+    const requestUrl = `http://localhost:3000/printTicket/${ticketKey}.${ticketName}.${ticketReporter}.${ticketBirthday}.${ticketCopies}`;
+    //alert(requestUrl);
+    
     //create XMLHttpRequest object
     const xhrPrint = new XMLHttpRequest();
     //open a get request with the remote server URL
@@ -32,10 +34,14 @@ function jiraApi() {
 }
 
 function jiraParser(ticketJson) {
-    let name = ticketJson['fields']['summary'];
-    let reporter = normalizeReporter(ticketJson['fields']['creator']['displayName']);
-    let birthday = ticketJson['fields']['created']; //NEEDS TO BE FORMATTED
-    let copies = ticketJson['fields']['customfield_12004']; //NEEDS TO BE FORMATTED
+    const name = ticketJson['fields']['summary'];
+    const reporter = normalizeReporter(ticketJson['fields']['creator']['displayName']);
+    const birthdayRaw = ticketJson['fields']['created'];
+    const birthdayFiltered = birthdayRaw.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/i);
+    const birthday = birthdayFiltered[0];
+    const copiesRaw = ticketJson['fields']['customfield_12004'];
+    const copiesFiltered = Math.trunc(copiesRaw);
+    const copies = copiesFiltered.toString();
     
     return {name, reporter, birthday, copies};
 }
