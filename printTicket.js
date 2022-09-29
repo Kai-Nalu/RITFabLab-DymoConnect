@@ -1,7 +1,4 @@
 exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
-	//get labelXml
-	const ticketLabelTemplate = require("./ticketLabelTemplate");
-	let labelXml = ticketLabelTemplate.ticketLabelTemplate(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies);
 	
 	//dymojs setup
 	const Dymo = require('dymojs'),
@@ -17,24 +14,18 @@ exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBir
 	const xml2js = require('xml2js');
 	const parser = new xml2js.Parser({ attrkey: "ATTR" });
 	
+	//make label image
 	const makeLabelImage = require("./makeLabelImage");
-	makeLabelImage.makeLabelImage(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies);
+	const labelImage = makeLabelImage.makeLabelImage(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies);
 	
-	/*const fs = require('fs');
-	dymo.renderLabel(labelXml).then(imageData => {
-	    fs.writeFile("out.png", imageData, 'base64', (err) => {
-			if (err)
-				console.log(err);
-			else {
-				console.log("File written successfully");
-    }
-		});
-	});*/
+	//get labelXml
+	const ticketLabelTemplate = require("./ticketLabelTemplate");
+	const labelXml = ticketLabelTemplate.ticketLabelTemplate(labelImage);
 	
 	//get list of connected printers then proceed
-	/*let dymoPrinters = dymo.getPrinters();
+	let dymoPrinters = dymo.getPrinters();
 	dymoPrinters.then(function(result) {
-		console.log(result);
+		//console.log(result);
 		let dymoPrintersXml = result;
 		
 		//get first printer in list then proceed
@@ -47,15 +38,14 @@ exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBir
 				console.log(currentPrinter);
 				
 				//print label
+				//console.log(labelXml);
 				dymo.print(currentPrinter, labelXml);
 		    }
 		    else {
 		        console.log(error);
 		    }
 		});
-	});*/
-	
-
+	});
 	
 	return null;
 };

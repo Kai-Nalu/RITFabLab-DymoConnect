@@ -8,7 +8,7 @@ function xhrJiraListener () {
 
 function printRequest(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
     //make request url
-    const requestUrl = `http://localhost:3000/printTicket/${ticketKey}.${ticketName}.${ticketReporter}.${ticketBirthday}.${ticketCopies}`;
+    const requestUrl = `https://129.21.67.34:3000/printTicket/${ticketKey}.${ticketName}.${ticketReporter}.${ticketBirthday}.${ticketCopies}`;
     //alert(requestUrl);
     
     //create XMLHttpRequest object

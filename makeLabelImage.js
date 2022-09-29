@@ -89,6 +89,7 @@ exports.makeLabelImage = function (ticketKey, ticketName, ticketReporter, ticket
     context.textAlign = 'right';
     context.fillText(birthdayLabelText, width-birthdayWidth, copiesBirthdayY+topMargin);
     
-    const imgBuffer = canvas.toBuffer('image/png');
-    fs.writeFileSync('./drawnImage.png', imgBuffer);
-}
+    const dataURL = canvas.toDataURL('image/png').replace(/data:image\/png;base64,/i,'');
+    //console.log(dataURL);
+    return(dataURL);
+};
