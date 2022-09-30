@@ -1,7 +1,7 @@
 {
   "name": "RIT FabLab Dymo Connect",
   "description": "Chrome extension for printing ticket labels to the Dymo printers in the RIT FabLab.",
-  "version": "1.0",
+  "version": "1.2",
   "manifest_version": 3,
   "action": {
     "default_title": "Print Ticket",
