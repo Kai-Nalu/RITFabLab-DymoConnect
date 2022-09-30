@@ -5,7 +5,7 @@ const app = express();
 const https = require("https");
 const fs = require("fs");
 //set port
-const port = 3000;
+const port = 3126;
 
 //init dymo code
 const printText = require("./printText");
@@ -23,9 +23,6 @@ https
 	.listen(port, ()=>{
 		console.log(`printLabelExpress running on port ${port}!`);
 	});
-/*app.listen(port, function () {
-	console.log(`printLabelExpress running on port ${port}!`);
-});*/
 
 //landing page response route
 app.get("/", function (req, res) {
@@ -40,12 +37,8 @@ app.get("/printText/:text", function (req, res) {
 });
 
 //print ticket response route
-app.get("/printTicket/:key.:name.:reporter.:birthday.:copies", function (req, res) {
+app.get("/printTicket/:key", function (req, res) {
 	res.send(req.params);
 	//print the label
-	printTicket.printTicket(req.params.key,
-							req.params.name,
-							req.params.reporter,
-							req.params.birthday,
-							req.params.copies);
+	printTicket.printTicket(req.params.key);
 });

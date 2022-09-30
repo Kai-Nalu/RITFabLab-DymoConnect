@@ -1,4 +1,4 @@
-exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
+exports.printTicket = function (passedTicketKey) {
 	
 	//dymojs setup
 	const Dymo = require('dymojs'),
@@ -7,43 +7,50 @@ exports.printTicket = function (ticketKey, ticketName, ticketReporter, ticketBir
 	//report dymo statuses
 	let dymoStatus = dymo.getStatus();
 	dymoStatus.then(function(result) {
-		console.log(result);
+		//console.log(result);
 	});
 	
 	//xml2js setup
 	const xml2js = require('xml2js');
 	const parser = new xml2js.Parser({ attrkey: "ATTR" });
 	
-	//make label image
-	const makeLabelImage = require("./makeLabelImage");
-	const labelImage = makeLabelImage.makeLabelImage(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies);
+	//get ticket info
+	const jiraHandler = require("./jiraHandler");
+	jiraHandler.jiraHandler(passedTicketKey).then(function(result) {
 	
-	//get labelXml
-	const ticketLabelTemplate = require("./ticketLabelTemplate");
-	const labelXml = ticketLabelTemplate.ticketLabelTemplate(labelImage);
-	
-	//get list of connected printers then proceed
-	let dymoPrinters = dymo.getPrinters();
-	dymoPrinters.then(function(result) {
-		//console.log(result);
-		let dymoPrintersXml = result;
+		const ticketInfo = result;
 		
-		//get first printer in list then proceed
-		parser.parseString(dymoPrintersXml, function(error, result) {
-		    if(error === null) {
-				let jsonPrinters = result;
-		        console.log(JSON.stringify(jsonPrinters));
-				
-				let currentPrinter = jsonPrinters.Printers.LabelWriterPrinter[0].Name[0];
-				console.log(currentPrinter);
-				
-				//print label
-				//console.log(labelXml);
-				dymo.print(currentPrinter, labelXml);
-		    }
-		    else {
-		        console.log(error);
-		    }
+		//make label image
+		const makeLabelImage = require("./makeLabelImage");
+		const labelImage = makeLabelImage.makeLabelImage(ticketInfo.key, ticketInfo.name, ticketInfo.reporter, ticketInfo.birthday, ticketInfo.copies);
+		
+		//get labelXml
+		const ticketLabelTemplate = require("./ticketLabelTemplate");
+		const labelXml = ticketLabelTemplate.ticketLabelTemplate(labelImage);
+		
+		//get list of connected printers then proceed
+		let dymoPrinters = dymo.getPrinters();
+		dymoPrinters.then(function(result) {
+			//console.log(result);
+			let dymoPrintersXml = result;
+			
+			//get first printer in list then proceed
+			parser.parseString(dymoPrintersXml, function(error, result) {
+				if(error === null) {
+					let jsonPrinters = result;
+					//console.log(JSON.stringify(jsonPrinters));
+					
+					let currentPrinter = jsonPrinters.Printers.LabelWriterPrinter[0].Name[0];
+					//console.log(currentPrinter);
+					
+					//print label
+					//console.log(labelXml);
+					dymo.print(currentPrinter, labelXml);
+				}
+				else {
+					console.log(error);
+				}
+			});
 		});
 	});
 	

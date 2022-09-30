@@ -1,15 +1,9 @@
 //printRequest.js
-//Wait for Jira api then request print
-jiraApi();
-function xhrJiraListener () {
-    const ticketData = jiraParser(JSON.parse(this.responseText));
-    printRequest(scrapeTicketKey(), ticketData.name, ticketData.reporter, ticketData.birthday, ticketData.copies);
-}
+printRequest(scrapeTicketKey());
 
-function printRequest(ticketKey, ticketName, ticketReporter, ticketBirthday, ticketCopies) {
+function printRequest(ticketKey) {
     //make request url
-    const requestUrl = `https://129.21.67.34:3000/printTicket/${ticketKey}.${ticketName}.${ticketReporter}.${ticketBirthday}.${ticketCopies}`;
-    //alert(requestUrl);
+    const requestUrl = `https://129.21.67.34:3126/printTicket/${ticketKey}`;
     
     //create XMLHttpRequest object
     const xhrPrint = new XMLHttpRequest();
@@ -25,34 +19,3 @@ function scrapeTicketKey() {
     //return last element
     return pathArray[pathArray.length - 1];
 }
-
-function jiraApi() {  
-    const xhrJira = new XMLHttpRequest();
-    xhrJira.addEventListener("load", xhrJiraListener);
-    xhrJira.open("GET", `https://jira.cad.rit.edu/rest/agile/1.0/issue/${scrapeTicketKey()}`);
-    xhrJira.send();
-}
-
-function jiraParser(ticketJson) {
-    const name = ticketJson['fields']['summary'];
-    const reporter = normalizeReporter(ticketJson['fields']['creator']['displayName']);
-    const birthdayRaw = ticketJson['fields']['created'];
-    const birthdayFiltered = birthdayRaw.match(/[0-9]{4}-[0-9]{2}-[0-9]{2}/i);
-    const birthday = birthdayFiltered[0];
-    const copiesRaw = ticketJson['fields']['customfield_12004'];
-    const copiesFiltered = Math.trunc(copiesRaw);
-    const copies = copiesFiltered.toString();
-    
-    return {name, reporter, birthday, copies};
-}
-
-function normalizeReporter(s) {
-    s = s.match(/\S+/g);
-    s = s ? s.join(' ') : '';
-    return s.replace(/\s\([^()]*\)/g, '');
-}
-
-/*function scrapeTicketReporter() {
-    //return reporter name
-    return normalizeScrapes(document.querySelector(`[id^="issue_summary_reporter"]`).textContent);
-}*/
