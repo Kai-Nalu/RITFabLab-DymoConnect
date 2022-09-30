@@ -38,6 +38,7 @@ app.get("/printText/:text", function (req, res) {
 
 //print ticket response route
 app.get("/printTicket/:key", function (req, res) {
+	console.log(`Attempting ticket ${req.params.key}`);
 	res.send(req.params);
 	//print the label
 	printTicket.printTicket(req.params.key);

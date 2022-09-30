@@ -46,6 +46,7 @@ exports.printTicket = function (passedTicketKey) {
 					//print label
 					//console.log(labelXml);
 					dymo.print(currentPrinter, labelXml);
+					console.log(`Fulfilled ticket ${passedTicketKey}\n`);
 				}
 				else {
 					console.log(error);
