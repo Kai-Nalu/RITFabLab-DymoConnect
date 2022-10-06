@@ -1,11 +1,12 @@
 //init express
 const express = require("express");
 const app = express();
-//init https and fs
+//init https and fs and path
 const https = require("https");
 const fs = require("fs");
+const path = require("path");
 //set port
-const port = 3126;
+const port = 3127;
 
 //init dymo code
 const printText = require("./printText");
@@ -15,8 +16,8 @@ const printTicket = require("./printTicket");
 https
 	.createServer(
 		{
-			key: fs.readFileSync("openssl/key.pem"),
-			cert: fs.readFileSync("openssl/cert.pem")
+			key: fs.readFileSync(path.join(__dirname,"openssl/key.pem")),
+			cert: fs.readFileSync(path.join(__dirname,"openssl/cert.pem"))
 		},
 		app
 	)

@@ -1,18 +1,8 @@
 exports.printTicket = function (passedTicketKey) {
-	
-	//dymojs setup
-	const Dymo = require('dymojs'),
-		   dymo = new Dymo();
-	
-	//report dymo statuses
-	let dymoStatus = dymo.getStatus();
-	dymoStatus.then(function(result) {
-		//console.log(result);
-	});
-	
-	//xml2js setup
-	const xml2js = require('xml2js');
-	const parser = new xml2js.Parser({ attrkey: "ATTR" });
+	const PDFDocument = require('pdfkit');
+    doc = new PDFDocument();
+	const fs = require('fs');
+	const exec = require('child_process').exec;
 	
 	//get ticket info
 	const jiraHandler = require("./jiraHandler");
@@ -22,37 +12,21 @@ exports.printTicket = function (passedTicketKey) {
 		
 		//make label image
 		const makeLabelImage = require("./makeLabelImage");
-		const labelImage = makeLabelImage.makeLabelImage(ticketInfo.key, ticketInfo.name, ticketInfo.reporter, ticketInfo.birthday, ticketInfo.copies);
-		
-		//get labelXml
-		const ticketLabelTemplate = require("./ticketLabelTemplate");
-		const labelXml = ticketLabelTemplate.ticketLabelTemplate(labelImage);
-		
-		//get list of connected printers then proceed
-		let dymoPrinters = dymo.getPrinters();
-		dymoPrinters.then(function(result) {
-			//console.log(result);
-			let dymoPrintersXml = result;
-			
-			//get first printer in list then proceed
-			parser.parseString(dymoPrintersXml, function(error, result) {
-				if(error === null) {
-					let jsonPrinters = result;
-					//console.log(JSON.stringify(jsonPrinters));
-					
-					let currentPrinter = jsonPrinters.Printers.LabelWriterPrinter[0].Name[0];
-					//console.log(currentPrinter);
-					
-					//print label
-					//console.log(labelXml);
-					dymo.print(currentPrinter, labelXml);
-					console.log(`Fulfilled ticket ${passedTicketKey}\n`);
-				}
-				else {
-					console.log(error);
-				}
+		makeLabelImage.makeLabelImage(ticketInfo.key, ticketInfo.name, ticketInfo.reporter, ticketInfo.birthday, ticketInfo.copies).then(function(resultImage) {
+			writeStream = fs.createWriteStream('ticket.pdf');
+			doc.pipe(writeStream);
+			doc.image(resultImage, {
+				fit: [252, 81],
+				align: 'center',
+				valign: 'center'
+			});
+			doc.end();
+			writeStream.on('finish', function(){
+				exec('lp -d DYMO_LabelWriter_450 ./ticket.pdf');
 			});
 		});
+		
+		
 	});
 	
 	return null;
