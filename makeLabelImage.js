@@ -90,7 +90,7 @@ exports.makeLabelImage = function (ticketKey, ticketName, ticketReporter, ticket
         context.textAlign = 'right';
         context.fillText(birthdayLabelText, width-birthdayWidth, copiesBirthdayY+topMargin);
         
-        const buffer = context.toBuffer('image/png');
+        const buffer = canvas.toBuffer('image/png');
         resolve(buffer);
     });
 };
