@@ -15,7 +15,7 @@ exports.printTicket = function (passedTicketKey) {
 			const doc = new PDFDocument({size: [252, 81]});
 			writeStream = fs.createWriteStream('ticket.pdf');
 			doc.pipe(writeStream);
-			doc.image(resultImage, 0, 0, {width:252, height:81});
+			doc.image(resultImage, 0, 0, {fit: [245, 81], align: 'center', valign: 'center'});
 			doc.end();
 			writeStream.on('finish', function(){
 				exec('lp -d DYMO_LabelWriter_450 ./ticket.pdf');
