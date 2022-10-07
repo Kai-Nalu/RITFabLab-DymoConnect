@@ -1,6 +1,5 @@
 exports.printTicket = function (passedTicketKey) {
 	const PDFDocument = require('pdfkit');
-    doc = new PDFDocument();
 	const fs = require('fs');
 	const exec = require('child_process').exec;
 	
@@ -13,19 +12,14 @@ exports.printTicket = function (passedTicketKey) {
 		//make label image
 		const makeLabelImage = require("./makeLabelImage");
 		makeLabelImage.makeLabelImage(ticketInfo.key, ticketInfo.name, ticketInfo.reporter, ticketInfo.birthday, ticketInfo.copies).then(function(resultImage) {
-			fs.writeFileSync('./ticket.png', resultImage);
-			exec('lp -d DYMO_LabelWriter_450 ./ticket.png');
-			/*writeStream = fs.createWriteStream('ticket.pdf');
+			const doc = new PDFDocument({size: [252, 81]});
+			writeStream = fs.createWriteStream('ticket.pdf');
 			doc.pipe(writeStream);
-			doc.image(resultImage, {
-				fit: [252, 81],
-				align: 'center',
-				valign: 'center'
-			});
+			doc.image(resultImage, 0, 0, {width:252, height:81});
 			doc.end();
 			writeStream.on('finish', function(){
 				exec('lp -d DYMO_LabelWriter_450 ./ticket.pdf');
-			});*/
+			});
 		});
 		
 		
