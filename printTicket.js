@@ -13,7 +13,9 @@ exports.printTicket = function (passedTicketKey) {
 		//make label image
 		const makeLabelImage = require("./makeLabelImage");
 		makeLabelImage.makeLabelImage(ticketInfo.key, ticketInfo.name, ticketInfo.reporter, ticketInfo.birthday, ticketInfo.copies).then(function(resultImage) {
-			writeStream = fs.createWriteStream('ticket.pdf');
+			fs.writeFileSync('./ticket.png', resultImage);
+			exec('lp -d DYMO_LabelWriter_450 ./ticket.png');
+			/*writeStream = fs.createWriteStream('ticket.pdf');
 			doc.pipe(writeStream);
 			doc.image(resultImage, {
 				fit: [252, 81],
@@ -23,7 +25,7 @@ exports.printTicket = function (passedTicketKey) {
 			doc.end();
 			writeStream.on('finish', function(){
 				exec('lp -d DYMO_LabelWriter_450 ./ticket.pdf');
-			});
+			});*/
 		});
 		
 		
